@@ -22,13 +22,13 @@
      1. Aggregated view of all borrowed books with total quantity
      2. Returns book titles and ISBNs via MongoDB aggregation pipeline
 
-   *  ✅ **Schema Validation**
+   *  ✅ **Schema Validation**  
       1.Mongoose validations with detailed error handling and messages
 
-   *  ⚙️ **Filtering & Sorting**
-     1.  Genre-based filtering
-     2.  Sorting by fields like createdAt
-     3.  Pagination via limit query
+   *  ⚙️ **Filtering & Sorting**  
+     1.  Genre-based filtering  
+     2.  Sorting by fields like createdAt  
+     3.  Pagination via limit query  
 
 
 

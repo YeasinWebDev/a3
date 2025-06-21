@@ -5,7 +5,14 @@ import { Borrow } from "./borrow.model";
 export const borrowBook = async (req: Request, res: Response) => {
   const { book, quantity } = req.body;
 
-  let bookToBorrow = await Book.findById(book);
+  const bookToBorrow = await Book.findById(book);
+
+  if (!bookToBorrow) {
+    return res.status(404).json({
+      success: false,
+      message: "Book not found",
+    });
+  }
 
   if (!bookToBorrow?.available) {
     return res.status(400).json({
@@ -30,16 +37,16 @@ export const borrowBook = async (req: Request, res: Response) => {
 
   try {
     const newBorrow = await Borrow.create(req.body);
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "Book borrowed successfully",
       data: newBorrow,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Failed to borrow book",
-      error: error,
+      error,
     });
   }
 };
@@ -62,16 +69,16 @@ export const borrowBooks = async (req: Request, res: Response) => {
         },
       },
       {
-        $project:{
+        $project: {
           _id: 0,
-          book:{
+          book: {
             title: 1,
-            isbn:1
+            isbn: 1,
           },
-          totalQuantity: 1
-        }
-      }
-    ])
+          totalQuantity: 1,
+        },
+      },
+    ]);
     res.status(200).json({
       success: true,
       message: "Borrowed books summary retrieved successfully",

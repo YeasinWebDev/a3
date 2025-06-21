@@ -28,9 +28,9 @@ export const createBook = async (req: Request, res: Response) => {
 
 export const getAllBooks = async (req: Request, res: Response) => {
   try {
-    let genre = req.query.filter;
-    let sortBy = req.query.sortBy || "createdAt";
-    let sort = req.query.sort || "asc";
+    const genre = req.query.filter;
+    const sortBy = (req.query.sortBy as string) || "createdAt";
+    const sortOrder = req.query.sort === "desc" ? -1 : 1;
     let limit = 10;
 
     if (req.query.limit) {
@@ -39,14 +39,16 @@ export const getAllBooks = async (req: Request, res: Response) => {
         limit = parsedLimit;
       }
     }
+
     const filter: Record<string, any> = {};
     if (genre) {
       filter.genre = genre;
     }
 
     const books = await Book.find(filter)
-      .sort({ [sortBy]: sort })
+      .sort({ [sortBy]: sortOrder })
       .limit(limit);
+
     res.status(200).json({
       success: true,
       message: "Books retrieved successfully",
@@ -56,10 +58,11 @@ export const getAllBooks = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Failed to fetch books",
-      error: error,
+      error,
     });
   }
 };
+
 
 export const getBookById = async (req: Request, res: Response) => {
   console.log(req.params.bookId);

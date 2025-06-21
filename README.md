@@ -36,7 +36,7 @@
 
 ### 1. Clone the Repository
  ``
-   git clone https://github.com/your-username/library-management-api.git
+   git clone https://github.com/YeasinWebDev/a3.git  
    cd library-management-api
 ``  
 
